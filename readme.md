@@ -54,8 +54,8 @@ The application is built on a simple client-server architecture. The Next.js fro
 1. **Clone the Repo**
     
     ```
-    git clone https://github.com/your-username/abedintech-fullstack-challenge.git
-    cd abedintech-fullstack-challenge
+    git clone 
+    cd to project root
     
     ```
     
