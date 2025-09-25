@@ -101,8 +101,11 @@ npm run dev
 
 ### 📸 Screenshots
 
-<img src="./assets/scheduler.png" width="700" alt="Scheduler and Post List View" />
+<img width="1880" height="987" alt="image" src="https://github.com/user-attachments/assets/8c20de90-2b4d-49c5-8485-fd9c638f515b" />
 
-<img src="./assets/customizer.png" width="700" alt="Product Customizer Page" />
 
-<img src="./assets/dashboard.png" width="700" alt="Analytics Dashboard" />
+<img width="1893" height="847" alt="image" src="https://github.com/user-attachments/assets/4ad3c0ea-e7fb-4c53-b741-0d538d9d3d29" />
+
+
+<img width="1910" height="905" alt="image" src="https://github.com/user-attachments/assets/dc0d31fb-66e0-421b-b3e8-577a2f84aa75" />
+
