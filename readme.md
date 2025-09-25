@@ -1,155 +1,108 @@
-🚀 Project README: Social Agent Scheduling Platform
-✨ AI-Powered Social Agent: Exceeding Expectations
-This submission presents a fully containerized, full-stack application built to successfully complete the three interview challenges. The solution is architecturally decoupled, using a dedicated service-oriented approach to demonstrate best practices in production environments.
+# Social media schedular
 
-The project goes beyond the "Stretch Goals" by implementing live AI integration with the Gemini API for key features and deploying the application using a robust Docker Compose setup that ensures a zero-troubleshooting experience for the reviewer.
+A production-ready solution to Abedin Tech’s Full Stack Web Developer Interview Challenge, built with FastAPI, Next.js, React, SQLite, and AI integrations.
 
-🎯 Recruiter Highlights (Key Achievements)
-Challenge Met	Implementation Details	Architectural Excellence
-Challenge 1 (Core)	Full scheduling, image upload, and database persistence.	Decoupled Architecture: The API (backend) and the scheduler (scheduler) run as separate Docker services, ensuring API responsiveness is never blocked by background tasks.
-Stretch Goal 1: AI Helper	Implemented Live Gemini API for dynamic Content Polishing and Insight Generation. Includes a secure user key handling mechanism (sessionStorage).	Robust Fallback: A dedicated gemini_service.py ensures the application never fails, even if the Gemini API is down, by reverting to a mock response.
-Challenge 2 & 3 (Minis)	Complete implementation of Product Design Preview and a dynamic Analytics Dashboard.	Clear Service Separation: All AI, scheduling, and database logic are isolated into distinct service modules for maintainability.
-Submission Guideline	Provided Robust Docker deployment for one-command startup, along with detailed manual instructions for fallback.	Data Persistence: Uses Docker volumes to ensure the SQLite database and uploaded images are persistent across container restarts.
+This project was developed in phases, starting with a minimal MVP and gradually layering in advanced features, AI-powered enhancements, and UI/UX polish.
 
-Export to Sheets
-💻 Quick Start (One-Command Deployment)
-The fastest and easiest way to run the entire application is using Docker Compose.
+### 🌟 Key Highlights
 
-Prerequisites
-Docker and Docker Compose installed.
+- ✅ Core scheduling app (text + image + platforms) with a single-process FastAPI + APScheduler backend.
+- ✅ SQLite persistence with clean SQLAlchemy models.
+- ✅ Next.js + React frontend with responsive forms, real-time previews, and dashboards.
+- ✅ AI-powered features: hashtag suggestion, post rewriter, and insights (Gemini API mock).
+- ✅ Extra UX polish: dark mode, loading states, status badges, customizable fonts/colors.
+- ✅ Dockerized setup for one-command deployment (`docker compose up`).
 
-1. Build and Run the Stack
-Execute the following command from the project root directory:
+### 🛠️ Tech Stack
 
-Bash
+- **Backend:** FastAPI, SQLAlchemy ORM, APScheduler, Alembic
+- **Frontend:** Next.js (App Router), React, Tailwind CSS, Recharts
+- **Database:** SQLite
+- **AI Integrations:** Gemini API (mock/static for demo)
+- **DevOps:** Docker, docker-compose
 
-docker compose up --build -d
-This command will:
+### 📅 Development Phases
 
-Build the backend (FastAPI) and frontend (Next.js) Docker images.
+**Phase 1 – Core Foundation (MVP)**
+A foundational FastAPI backend with a `scheduled_posts` table, endpoints for post creation and retrieval, and a simple APScheduler background job. A basic Next.js frontend with a form and a post list was developed to interact with the API.
 
-Start three services: frontend, backend (API), and a dedicated scheduler.
+**Phase 2 – Mini Challenges**
 
-Set up persistent volumes for the database and images.
+- **Product Customizer:** Added a design customizer for T-shirts with live text overlay, supported by `POST /save_design` and `GET /my_designs` endpoints.
+- **Analytics Dashboard:** Implemented a dashboard with `GET /analytics/stats` to visualize real post data using Recharts, showing a breakdown of post statuses (published, scheduled, failed).
 
-2. Access the Application
-The frontend will be available at:
+**Phase 3 – Polish & Presentation**
+Focused on improving the project's overall quality. This included writing clear README documentation, generating Swagger/OpenAPI docs for all endpoints, and refactoring the codebase with comments and reusable React components.
 
-http://localhost:3000
+**Phase 4 – UI/UX Flair**
+Enhanced the user experience with new features like a dark mode toggle, a sidebar navigation for different app sections, and enhanced charts with more detailed data. Status badges and loading spinners were added to provide clearer user feedback.
 
-3. Key Endpoints
-Service	Endpoint	Port	Description
-Frontend	http://localhost:3000	3000	The main user interface.
-Backend API	http://localhost:8001	8001	Base API endpoint.
-Swagger Docs	http://localhost:8001/docs	8001	FastAPI interactive documentation.
+**Phase 5 – AI Enhancements**
+Integrated mock AI services to add smart features to the app. This phase included a hashtag generator, a text tone adjuster, and AI insights based on recent posts, simulating a Gemini API integration.
 
-Export to Sheets
-🗺️ Project Structure
-The project maintains a clear separation between the Next.js frontend and the FastAPI backend.
+**Phase** 6 – Final **Architecture Polish**
+The entire application stack was containerized using Docker. A `docker-compose.yml` file was created to orchestrate a single-container backend (that runs both the FastAPI server and the APScheduler), a frontend service, and a database volume. This enables the entire application to be run with a single command.
 
-social-agent-scheduling/
-├── backend/
-│   ├── api/
-│   │   └── endpoints/ (post.py, analytics.py, design.py)
-│   ├── core/
-│   │   └── (main.py, database.py)
-│   ├── services/
-│   │   └── (scheduler.py, gemini_service.py, upload_service.py)
-│   ├── db_data/ (DB Persistence Volume)
-│   ├── images/  (Image Persistence Volume)
-│   ├── Dockerfile
-│   ├── pyproject.toml
-│   └── ...
-├── frontend/
-│   ├── app/
-│   │   └── (page.js, design/page.js, dashboard/page.js)
-│   ├── components/
-│   │   └── (Header.js, LoadingSpinner.js, etc.)
-│   └── Dockerfile
-├── docker-compose.yml
-├── README.md
-└── ...
-🛠️ Technology Stack & Libraries
-Component	Technology	Key Libraries	Role in Project
-Backend	FastAPI (Python 3.11)	SQLAlchemy, Uvicorn, Pydantic, python-multipart	Handles API logic, data validation, and scheduling.
-Database	SQLite	SQLAlchemy (ORM)	Lightweight, persistent database for post and design data.
-Scheduler	APScheduler	apscheduler	Dedicated background process for auto-publishing scheduled posts.
-AI Integration	Google Gemini API	google-genai	Provides dynamic content polishing and dashboard insights.
-Frontend	Next.js 14 (App Router)	React.js, Tailwind CSS	User interface, state management, and API key handling.
-Deployment	Docker & Docker Compose		Orchestrates and isolates all services into a single environment.
+### 🧠 Architecture Diagram
 
-Export to Sheets
-🧩 Detailed Challenge Mapping
-The project architecture was explicitly designed to address and exceed the requirements of all three challenges:
+The application is built on a simple client-server architecture. The Next.js frontend communicates with a single FastAPI backend container via REST API calls. The backend handles all business logic, database interactions, and also runs the background scheduler to publish posts at their designated times.
 
-Challenge 1: AI Agent with Social Posting & Scheduling (Core)
-Task	Implementation	Files Involved
-FastAPI Service	Implemented post creation endpoint accepting text, image (UploadFile), platforms, and scheduled time.	backend/api/endpoints/post.py
-DB Storage	Post model stores all metadata and image paths.	backend/models/post.py, backend/core/database.py
-Background Scheduler	A decoupled scheduler service polls the database every 15 seconds to auto-publish (update status) posts whose scheduled time is in the past.	docker-compose.yml (dedicated service), backend/services/scheduler.py
-List Posts & Status	The main page lists all posts, showing the mock platform(s), image preview, and status (Scheduled, Published, Failed).	frontend/app/page.js, backend/api/endpoints/post.py
-Stretch Goal: AI Helper	Live Gemini Content Polisher added to the main posting form. Securely uses the user-provided Gemini key for live API calls, falling back to mock text if the key is invalid or the API fails.	backend/services/gemini_service.py, frontend/app/page.js
+### ⚡ Quick Start
 
-Export to Sheets
-Challenge 2: Product Customization Preview (Mini)
-Task	Implementation	Files Involved
-Frontend Preview	A dedicated design page allows a user to input text and visualize it overlaid on a mock image.	frontend/app/design/page.js
-Backend Save	An endpoint saves the product image and text details to the Design table in the database.	backend/api/endpoints/design.py, backend/models/design.py
-Stretch Goal: My Designs	A small gallery on the design page displays saved customizations fetched from the backend.	frontend/app/design/page.js
+### 
 
-Export to Sheets
-Challenge 3: Analytics Dashboard (Mini)
-Task	Implementation	Files Involved
-Backend Summary Data	An endpoint provides real-time counts of Published, Scheduled, and Failed posts.	backend/api/endpoints/analytics.py
-AI-Generated Insight	An endpoint uses Live Gemini to analyze the real-time post statistics and generate a dynamic, actionable insight (e.g., "Schedule more posts, your failure rate is low"). Includes the robust mock fallback.	backend/api/endpoints/analytics.py, backend/services/gemini_service.py
-Frontend Display	The dashboard displays the counts using clean stat cards and prominently features the AI Insight.	frontend/app/dashboard/page.js
+1. **Clone the Repo**
+    
+    ```
+    git clone https://github.com/your-username/abedintech-fullstack-challenge.git
+    cd abedintech-fullstack-challenge
+    
+    ```
+    
+2. **Run with Docker**
+    
+    ```
+    docker compose up --build -d
+    
+    ```
+    
+    This single command will build and start all three services (backend, frontend, and database).
+    
 
-Export to Sheets
-Manual Setup (Fallback Instructions)
-If Docker is not an option, you can run the services separately.
+## **Manual Setup (Alternative)**
 
-Prerequisites
-Python 3.11+
+**Backend Setup**
 
-Node.js 20+
-
-Poetry (for Python dependency management)
-
-1. Backend Setup
-Bash
-
-# In the project root directory
+```
 cd backend
+python -m venv venv
+source venv/bin/activate   # (Windows: venv\Scripts\activate)
+pip install -r requirements.txt
+uvicorn app.main:app --reload
 
-# Install dependencies
-pip install poetry
-poetry install
+```
 
-# Manually create the persistence folders
-mkdir -p db_data
-mkdir -p images
+*Runs on `http://localhost:8001`*
 
-# Run database initialization and the main API (Port 8001)
-# Note: This version will *not* start the scheduler, which is handled separately below.
-uvicorn core.main:app --host 0.0.0.0 --port 8001 --reload
-2. Scheduler Process
-In a separate terminal window, start the scheduler process:
+**Frontend Setup**
 
-Bash
-
-# In the backend directory
-poetry run python services/scheduler_runner.py
-3. Frontend Setup
-In a third terminal window, set up and run the Next.js frontend:
-
-Bash
-
-# In the project root directory
+```
 cd frontend
-
-# Install dependencies
 npm install
-
-# Run the frontend (Port 3000)
 npm run dev
-The application will be available at http://localhost:3000. You will need to manually ensure the FastAPI services are running before accessing the frontend.
+
+```
+
+*Runs on `http://localhost:3000`*
+
+1. **Access the App**
+    - **Frontend:** Open your browser and navigate to `http://localhost:3000`.
+    - **Backend API Docs:** View the API documentation at `http://localhost:8001/docs`.
+
+### 📸 Screenshots
+
+<img src="./assets/scheduler.png" width="700" alt="Scheduler and Post List View" />
+
+<img src="./assets/customizer.png" width="700" alt="Product Customizer Page" />
+
+<img src="./assets/dashboard.png" width="700" alt="Analytics Dashboard" />
