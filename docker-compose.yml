@@ -1,0 +1,113 @@
+# # docker-compose.yml
+# version: '3.8'
+
+# services:
+#   # 1. Database Service (SQLite data persistence)
+#   db:
+#     image: busybox
+#     volumes:
+#       # Mount the db folder to persist data across container restarts
+#       - ./backend/db_data:/db_data
+
+#   # 2. Backend Service (FastAPI and Scheduler)
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     container_name: social_agent_backend
+#     ports:
+#       - "8001:8001"
+#     volumes:
+#       # Mount the db volume for the FastAPI app to access the database file
+#       - ./backend/db_data:/app/db_data
+#       # Mount images folder for persistence
+#       - ./backend/images:/app/images
+#     depends_on:
+#       - db
+#     environment:
+#       # Ensure the database path points to the volume mount location
+#       DATABASE_URL: sqlite:///./db_data/social_agent.db
+#       # Set the host for the frontend to access the API
+#       API_BASE_URL: http://backend:8001 
+#     # Starts the FastAPI server
+#     command: sh -c "python core/database.py && uvicorn core.main:app --host 0.0.0.0 --port 8001"
+
+#   # 3. Scheduler Service (Runs Apscheduler separate from Uvicorn)
+#   scheduler:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     container_name: social_agent_scheduler
+#     volumes:
+#       # Scheduler also needs access to the DB
+#       - ./backend/db_data:/app/db_data
+#     depends_on:
+#       - backend
+#     environment:
+#       # Same database connection as the backend
+#       DATABASE_URL: sqlite:///./db_data/social_agent.db
+#     # Starts the scheduler script only
+#     command: python services/scheduler_runner.py
+
+#   # 4. Frontend Service (Next.js)
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     container_name: social_agent_frontend
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - backend
+#     environment:
+#       # Point the frontend to the backend service name within the Docker network
+#       NEXT_PUBLIC_API_BASE_URL: http://backend:8001
+#       NODE_ENV: production
+
+version: '3.8'
+
+services:
+  # 1. Database Service (SQLite data persistence)
+  db:
+    image: busybox
+    volumes:
+      # Mount the db folder to persist data across container restarts
+      - ./backend/db_data:/db_data
+
+  # 2. Backend Service (FastAPI and Scheduler)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: social_agent_backend
+    ports:
+      - "8001:8001"
+    volumes:
+      # Mount the db volume for the FastAPI app to access the database file
+      - ./backend/db_data:/app/db_data
+      # Mount images folder for persistence
+      - ./backend/images:/app/images
+    depends_on:
+      - db
+    environment:
+      # Ensure the database path points to the volume mount location
+      DATABASE_URL: sqlite:///./db_data/social_agent.db
+      # Set the host for the frontend to access the API
+      API_BASE_URL: http://backend:8001 
+    # Corrected command: now points to the main.py file
+    command: python -m uvicorn main:app --host 0.0.0.0 --port 8001
+
+  # 3. Frontend Service (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: social_agent_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      # Point the frontend to the backend service name within the Docker network
+      NEXT_PUBLIC_API_BASE_URL: http://backend:8001
+      NODE_ENV: production
